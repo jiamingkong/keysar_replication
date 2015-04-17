@@ -1,4 +1,4 @@
-
+// use rng for the uuid generation.
 module.exports = {
     UUID: function() {
 	var name = Math.floor(Math.random() * 10) + '' + Math.floor(Math.random() * 10) + '' + Math.floor(Math.random() * 10) + '' + Math.floor(Math.random() * 10);

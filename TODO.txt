@@ -56,3 +56,6 @@
 	[x] record errors (send message to server)
 	[x] write object to file w/ error (w/ round & fix data)
 	[x] write object set ID and instruction ID to mouse position file w/ mouse
+
+
+[ ] the favicon is missing
