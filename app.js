@@ -14,8 +14,7 @@ var
     server          = app.listen(gameport),
     io              = require('socket.io')(server),
     _               = require('underscore'),
-    fs              = require('fs'),
-    VALID_LENGTH    = 41;
+    fs              = require('fs');
 
 if (use_db) {
     database        = require(__dirname + "/database"),
@@ -38,11 +37,8 @@ app.get( '/*' , function( req, res ) {
     var file = req.params[0]; 
     console.log('\t :: Express :: file requested: ' + file);    
     
-    // TODO this website makes debug a little bit harder. Make yourself a local one with a lot of things to display.
-    if(req.query.id && !valid_id(req.query.id))
-    {
-        res.redirect('http://projects.csail.mit.edu/ci/turk/forms/invalid.html')
-
+    if(req.query.id && !valid_id(req.query.id)) {
+       res.redirect('http://projects.csail.mit.edu/ci/turk/forms/invalid.html')
     } else {
 	if(req.query.id && req.query.id in global_player_set) {
 	    res.redirect('http://projects.csail.mit.edu/ci/turk/forms/duplicate.html')
@@ -62,13 +58,12 @@ io.on('connection', function (client) {
     var query = require('url').parse(client.handshake.headers.referer, true).query;
     if( !(query.id && query.id in global_player_set) ) {
         if(query.id) {
-            console.log("got id "+query.id);
+            console.log("got id")
             global_player_set[query.id] = true;
             // use id from query string if exists
             var id = query.id; 
         } else {
             var id = utils.UUID();
-            console.log("Issued id "+id);
         }
         if(valid_id(id)) {
             console.log("user connecting...")
@@ -78,7 +73,7 @@ io.on('connection', function (client) {
 });
 
 var valid_id = function(id) {
-    return id.length == VALID_LENGTH;
+    return id.length == 41;
 }
 
 var initialize = function(query, client, id) {                        
@@ -86,7 +81,7 @@ var initialize = function(query, client, id) {
     client.emit('onconnected', { id: client.userid } );
 
     // Good to know when they connected
-    console.log('\t :: socket.io :: player ' + client.userid + ' connected');
+    console.log('\t socket.io:: player ' + client.userid + ' connected');
 
     //Pass off to game.server.js code
     game_server.findGame(client);
@@ -101,7 +96,7 @@ var initialize = function(query, client, id) {
     // about that as well, so it can remove them from the game they are
     // in, and make sure the other player knows that they left and so on.
     client.on('disconnect', function () {            
-        console.log('\t :: socket.io :: client id ' + client.userid 
+        console.log('\t socket.io:: client id ' + client.userid 
                     + ' disconnected from game id ' + client.game.id);
         
         //If the client was in a game set by game_server.findGame,

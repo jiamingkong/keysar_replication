@@ -15,12 +15,12 @@ var drawGrid = function(game){
     game.ctx.beginPath();
 
     // vertical lines
-    for (var x = 0; x <= bw; x += Math.floor((cw - 2*p) / 4)) {
+    for (var x = 0; x <= bw; x += Math.floor((cw - 2*p) / 9)) {
         game.ctx.moveTo(0.5 + x + p, p);
         game.ctx.lineTo(0.5 + x + p, bh + p);}
 
     // horizontal lines
-    for (var x = 0; x <= bh; x += Math.floor((ch - 2*p) / 4)) {
+    for (var x = 0; x <= bh; x += Math.floor((ch - 2*p) / 3)) {
         game.ctx.moveTo(p, 0.5 + x + p);
         game.ctx.lineTo(bw + p, 0.5 + x + p);}
 

@@ -30,7 +30,6 @@ var moveObject = function(client, i, x, y) {
     obj.trueX = parseInt(x)
     obj.trueY = parseInt(y)
     _.map(others, function(p) {
-        // here the player instance will throw a msg.
       p.player.instance.emit('objMove', {i: i, x: x, y: y})
   })
 }
@@ -170,10 +169,10 @@ var writeData = function(client, type, message_parts) {
 // This is the important function that pairs people up into 'rooms'
 // all independent of one another.
 game_server.findGame = function(player) {
-    this.log(':: game.server :: looking for a game. We have : ' + this.game_count);
+    this.log('looking for a game. We have : ' + this.game_count);
     //if there are any games created, add this player to it!
     if(this.game_count) {
-        var joined_a_game = false;
+       var joined_a_game = false;
         for (var gameid in this.games) {
             if(!this.games.hasOwnProperty(gameid)) continue;
             var game = this.games[gameid];
@@ -199,7 +198,6 @@ game_server.findGame = function(player) {
                 var start_time = d.getFullYear() + '-' + d.getMonth() + 1 + '-' + d.getDate() + '-' + d.getHours() + '-' + d.getMinutes() + '-' + d.getSeconds() + '-' + d.getMilliseconds()
                 var name = start_time + '_' + game.id;
                 var mouse_f = "data/mouse/" + name + ".csv"
-                // the problem could be that there is no corresponding folder to write to. 4/17/2015
                 fs.writeFile(mouse_f, "gameid, time, condition, critical, objectSet, instructionNum, attemptNum, targetX, targetY, distractorX, distractorY, mouseX, mouseY\n", function (err) {if(err) throw err;})
                 game.gamecore.mouseDataStream = fs.createWriteStream(mouse_f, {'flags' : 'a'});
 

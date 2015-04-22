@@ -3,3 +3,6 @@ keysar_replication.sublime*
 auth.json	
 mturk-and-gmail.txt
 .DS_Store
+./data/error/*
+./data/message/*
+./data/mouse/*

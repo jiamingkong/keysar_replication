@@ -17,6 +17,7 @@
 */
 var has_require = typeof require !== 'undefined'
 
+
 if( typeof _ === 'undefined' ) {
     if( has_require ) {
         _ = require('underscore')
@@ -36,7 +37,7 @@ var game_core = function(game_instance){
     this.server = this.instance !== undefined;
 
     //Dimensions of world -- Used in collision detection, etc.
-    this.world = {width : 600, height : 600};  // 160cm * 3
+    this.world = {width : 1350, height : 450};  // 160cm * 3
     this.roundNum = -1;
     this.instructionNum = -1;
     this.numRounds = 8;
