@@ -181,7 +181,7 @@ window.onload = function(){
     game.ctx = game.viewport.getContext('2d');
 
     //Set the draw style for the font
-    game.ctx.font = '11px "Helvetica"';
+    game.ctx.font = '14px "Helvetica"';
 
     document.getElementById('chatbox').focus();
 

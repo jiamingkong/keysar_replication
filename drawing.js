@@ -1,4 +1,5 @@
-var occludedList = [[5,3], [2,2], [2,3], [3,1], [1,3]];
+//[x<=3,y<=9]
+var occludedList = [[3, 5]];
 
 var drawGrid = function(game){
     //size of canvas
