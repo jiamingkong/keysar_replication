@@ -37,7 +37,7 @@ var game_core = function(game_instance){
     this.server = this.instance !== undefined;
 
     //Dimensions of world -- Used in collision detection, etc.
-    this.world = {width : 1350, height : 450};  // 160cm * 3
+    this.world = {width : 1565, height : 560};  // 160cm * 3
     this.roundNum = -1;
     this.instructionNum = -1;
     this.numRounds = 8;
@@ -238,10 +238,14 @@ game_core.prototype.makeTrialList = function () {
 // for x = 1,2,3,4; y = 1,2,3,4
 game_core.prototype.getPixelFromCell = function (x, y) {
     return {
-        centerX: 25 + 68.75 + 137.5 * (x - 1),
-        centerY: 25 + 68.75 + 137.5 * (y - 1),
-        width: 137.5,
-        height: 137.5
+        //centerX: 25 + 68.75 + 137.5 * (x - 1),
+        //centerY: 25 + 68.75 + 137.5 * (y - 1),
+        //width: 137.5,
+        //height: 137.5
+        centerX: 24 + 84.5 + 169 * (x - 1),
+        centerY: 27 + 84.5 + 169 * (y - 1),
+        width: 169,
+        height: 169
     }
 }
 

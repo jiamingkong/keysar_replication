@@ -1,4 +1,4 @@
-var occludedList = [[4,4], [2,2], [2,3], [3,1], [1,4]];
+var occludedList = [[5,3], [2,2], [2,3], [3,1], [1,3]];
 
 var drawGrid = function(game){
     //size of canvas
@@ -55,7 +55,7 @@ var drawOccludedCell = function(x, y) {
     var topRight = [cell.centerX + cell.width/2, topLeft[1]]
     var bottomLeft = [topLeft[0], cell.centerY + cell.height/2]
     var bottomRight = [topRight[0], bottomLeft[1]]
-    game.ctx.beginPath();
+    game.ctx.beginPath(); 
     game.ctx.moveTo(topLeft[0], topLeft[1])
     game.ctx.lineTo(topRight[0], topRight[1])
     game.ctx.lineTo(bottomRight[0], bottomRight[1])
