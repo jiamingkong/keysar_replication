@@ -252,8 +252,10 @@ game_core.prototype.getPixelFromCell = function (x, y) {
 // maps a raw pixel coordinate to to the exact pixel coordinates
 // for x = 1,2,3,4; y = 1,2,3,4
 game_core.prototype.getCellFromPixel = function (mx, my) {
-    var cellX = Math.floor((mx - 25) / 137.5) + 1
-    var cellY = Math.floor((my - 25) / 137.5) + 1
+    //var cellX = Math.floor((mx - 25) / 137.5) + 1
+    //var cellY = Math.floor((my - 25) / 137.5) + 1
+    var cellX = Math.floor((mx - 24) / 169) + 1
+    var cellY = Math.floor((my - 25) / 169) + 1
     return [cellX, cellY]
 }
 
