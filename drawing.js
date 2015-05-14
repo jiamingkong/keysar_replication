@@ -94,11 +94,11 @@ var drawInstructions = function(game) {
     drawArrow(game, origin.centerX, origin.centerY, 
               dest.centerX, dest.centerY, 50)
     if(game.scriptedInstruction != "none") {
-      $('#chatbox').attr("disabled", "disabled"); 
+      //$('#chatbox').attr("disabled", "disabled"); 
       $('#chatbox').val(game.scriptedInstruction);
       $('#chatbutton').focus()
     } else {
-      $('#chatbox').removeAttr("disabled");
+      //$('#chatbox').removeAttr("disabled");
       $('#chatbox').val("")
       $('#chatbox').focus()
     }

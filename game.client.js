@@ -111,7 +111,7 @@ client_onserverupdate_received = function(data){
 // The corresponding function where the server parses messages from
 // clients, look for "server_onMessage" in game.server.js.
 client_onMessage = function(data) {
-
+    console.log('client rec mess:'+data)
     var commands = data.split('.');
     var command = commands[0];
     var subcommand = commands[1] || null;

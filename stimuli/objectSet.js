@@ -5,19 +5,19 @@
 //instruction : if initialLoc[0] == 3, can not be down
 
 // BLOCK 1
-var sunGlasses = {
-	url: 'stimuli/sunGlasses.png', name: "sunGlasses", width: 130, height: 65,
-	instruction: "sunGlasses right", initialLoc : [1,5], critical : "target",
+var sunGlasses1 = {
+	url: 'stimuli/sunGlasses.png', name: "sunGlasses1", width: 130, height: 65,
+	instruction: "sunGlasses1 right", initialLoc: [1, 5], critical: "distractor",
 	scriptedInstruction: "move the glasses one space to the right"}
-var glassesCase = {
-    url: 'stimuli/glassesCase.png', name: "glassesCase", width: 100, height: 107,
-    instruction: "glassesCase right", initialLoc: [2, 5], critical: "distractor",
+var sunGlasses2 = {
+    url: 'stimuli/sunGlasses.png', name: "sunGlasses2", width: 130, height: 65,
+    instruction: "sunGlasses2 right", initialLoc : [2,5], critical : "target",
     scriptedInstruction: "move the glasses one space to the right"
 }
-var soccerBall = {
-	url: 'stimuli/soccerBall.jpg', name: "soccerBall", width: 100, height: 100,
-	instruction: "soccerBall right", initialLoc: [3,5], critical: "distractor",
-	scriptedInstruction: "move the glasses one space to the right"
+var sunGlasses3 = {
+    url: 'stimuli/sunGlasses.png', name: "sunGlasses3", width: 130, height: 65,
+    instruction: "sunGlasses3 right", initialLoc : [3,5], critical : "target",
+    scriptedInstruction: "move the glasses one space to the right"
 }
 //var saxophone = {
 //	url: 'stimuli/saxophone.png', name: "saxophone", width: 97, height: 130,
@@ -222,14 +222,14 @@ var castIronPan = {
 
 var criticalItems = [
 	{
-	    instructions: [sunGlasses.instruction,glassesCase.instruction,
-		               soccerBall.instruction],
+	    instructions: [sunGlasses1.instruction, sunGlasses1.instruction,
+		               sunGlasses1.instruction],
 		criticalInstruction: "sunGlasses",
 		objectSet: 1,
-		target: sunGlasses,
-		distractor: glassesCase,
-		alt: soccerBall,
-		otherObjects: [soccerBall]
+		target: sunGlasses1,
+		distractor: sunGlasses2,
+		alt: sunGlasses3,
+		otherObjects: [sunGlasses3]
 	}
     //{
 	//	instructions: [binoculars.instruction, wrench.instruction, 

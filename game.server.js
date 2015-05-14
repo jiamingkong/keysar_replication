@@ -41,7 +41,7 @@ var moveObject = function(client, i, x, y) {
 // with the coordinates of the click, which this function reads and
 // applies.
 game_server.server_onMessage = function(client,message) {
-//    console.log("received message: " + message)
+    console.log("server received message: " + message)
     //Cut the message up into sub components
     var message_parts = message.split('.');
 

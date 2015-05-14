@@ -206,18 +206,12 @@ game_core.prototype.makeTrialList = function () {
         other = item['distractor']
         var target = _.extend(item['target'], {target: true})
         var objects = item.otherObjects.concat([target, other])
-        console.log('objects')
-        console.log(objects[0])
-        console.log(objects[1])
-        console.log(objects[2])
         return _.extend(_.omit(itemList[i], ['distractor', 'alt', 'target']), 
             {condition: condition,
              instructions: item.instructions,
              objects: objects}
             )})
     
-    console.log('trialList')
-    console.log(trialList)
 
     // 3. assign random initial locations (probably won't want to do this in the real exp.)
     var local_this = this;
