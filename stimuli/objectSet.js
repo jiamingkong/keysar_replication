@@ -7,27 +7,33 @@
 // BLOCK 1
 var sunGlasses = {
 	url: 'stimuli/sunGlasses.png', name: "sunGlasses", width: 130, height: 65,
-	instruction: "sunGlasses right", initialLoc : [3,5], critical : "target",
+	instruction: "sunGlasses right", initialLoc : [1,5], critical : "target",
 	scriptedInstruction: "move the glasses one space to the right"}
 var glassesCase = {
-	url: 'stimuli/glassesCase.png', name: "glassesCase", width : 100, height: 107,
-	instruction: "", initialLoc: [3,1], critical : "distractor",}
+    url: 'stimuli/glassesCase.png', name: "glassesCase", width: 100, height: 107,
+    instruction: "glassesCase right", initialLoc: [2, 5], critical: "distractor",
+    scriptedInstruction: "move the glasses one space to the right"
+}
 var soccerBall = {
 	url: 'stimuli/soccerBall.jpg', name: "soccerBall", width: 100, height: 100,
-	instruction: "", initialLoc: glassesCase.initialLoc, critical : "distractor",}
-var saxophone = {
-	url: 'stimuli/saxophone.png', name: "saxophone", width: 97, height: 130,
-	instruction: "saxophone up", initialLoc: [3,8], critical : "filler",}
-var airplane = {
-	url: 'stimuli/airplane.jpg', name: 'airplane', width: 130, height: 60,
-	instruction: "airplane right", initialLoc : [1,2],critical : "filler",}
-var barrel = {
-	url: 'stimuli/barrel.png', name: 'barrel', width: 87, height: 130,
-	instruction: "barrel down", initialLoc : [2,6], critical : "filler",
-	scriptedInstruction: "move the barrel down by one space"}
-var watch = {
-	url: 'stimuli/watch.png', name: 'watch', width: 130, height: 84,
-	instruction: "", initialLoc: [2,2], critical : "filler",}
+	instruction: "soccerBall right", initialLoc: [3,5], critical: "distractor",
+	scriptedInstruction: "move the glasses one space to the right"
+}
+//var saxophone = {
+//	url: 'stimuli/saxophone.png', name: "saxophone", width: 97, height: 130,
+//	instruction: "saxophone up", initialLoc: [3, 5], critical: "filler",
+//	scriptedInstruction: "move the glasses one space to the right"
+//}
+//var airplane = {
+//	url: 'stimuli/airplane.jpg', name: 'airplane', width: 130, height: 60,
+//	instruction: "airplane right", initialLoc : [1,2],critical : "filler",}
+//var barrel = {
+//	url: 'stimuli/barrel.png', name: 'barrel', width: 87, height: 130,
+//	instruction: "barrel down", initialLoc : [2,6], critical : "filler",
+//	scriptedInstruction: "move the barrel down by one space"}
+//var watch = {
+//	url: 'stimuli/watch.png', name: 'watch', width: 130, height: 84,
+//	instruction: "", initialLoc: [2,2], critical : "filler",}
 
 // BLOCK 2
 var middleBlock = {
@@ -35,7 +41,8 @@ var middleBlock = {
 	instruction: "middleBlock left", initialLoc: [3,4],
 	scriptedInstruction: "move the bottom block one space to the left", critical : "target"}
 var bottomBlock = {
-	url: 'stimuli/bottomBlock.jpg', name: "bottomBlock", width: 80, height: 80,
+    url: 'stimuli/middleBlock.jpg', name: "bottomBlock", width: 80, height: 80,
+	//url: 'stimuli/bottomBlock.jpg', name: "bottomBlock", width: 80, height: 80,
 	instruction: "", initialLoc: [2,2], critical : "distractor"}
 var stapler = {
 	url: 'stimuli/stapler.jpg', name: "stapler", width: 80, height: 80,
@@ -60,7 +67,8 @@ var cassetteTape = {
 	instruction: "cassetteTape down", initialLoc: [1,7], critical : "target",
 	scriptedInstruction: "move the tape down by one space",}
 var rollOfTape = {
-	url: 'stimuli/rollOfTape.jpg', name: "rollOfTape", width: 83, height: 83,
+    url: 'stimuli/cassetteTape.jpg', name: "rollOfTape", width: 83, height: 83,
+    //url: 'stimuli/rollOfTape.jpg', name: "rollOfTape", width: 83, height: 83,
 	instruction: "", initialLoc: [1,3], critical : "distractor"}
 var battery = {
 	url: 'stimuli/battery.jpg', name: "battery", width: 50, height: 80,
@@ -85,7 +93,8 @@ var mediumMeasuringCup = {
 	instruction: "mediumMeasuringCup down", initialLoc : [2,4], critical : "target",
 	scriptedInstruction: "move the large measuring cup down one space"}
 var largeMeasuringCup = {
-	url: 'stimuli/largeMeasuringCup.png', name: "largeMeasuringCup", width : 130, height: 85,
+    url: 'stimuli/mediumMeasuringCup.png', name: "largeMeasuringCup", width: 130, height: 85,
+    url: 'stimuli/largeMeasuringCup.png', name: "largeMeasuringCup", width: 130, height: 85,
 	instruction: "", initialLoc : [3,1], critical : "distractor",}
 var umbrella = {
 	url: 'stimuli/umbrella.png', name: "umbrella", width: 130, height: 112,
@@ -213,78 +222,80 @@ var castIronPan = {
 
 var criticalItems = [
 	{
-		instructions: [airplane.instruction, sunGlasses.instruction, 
-		               barrel.instruction, saxophone.instruction],
+	    instructions: [sunGlasses.instruction,glassesCase.instruction,
+		               soccerBall.instruction],
 		criticalInstruction: "sunGlasses",
 		objectSet: 1,
 		target: sunGlasses,
 		distractor: glassesCase,
 		alt: soccerBall,
-		otherObjects: [saxophone, airplane, barrel, watch]
-	},{
-		instructions: [binoculars.instruction, wrench.instruction, 
-		               middleBlock.instruction, coffeeMug.instruction],
-		criticalInstruction: "middleBlock",
-		objectSet: 2,
-		target: middleBlock,
-		distractor: bottomBlock,
-		alt: stapler,
-		otherObjects: [binoculars, wrench, topBlock, coffeeMug]
-	},{
-		instructions: [scissors.instruction, knife.instruction,
-		                barOfSoap.instruction, cassetteTape.instruction],
-		criticalInstruction: "cassetteTape",
-		objectSet: 3,
-		target: cassetteTape,
-		distractor: rollOfTape,
-		alt: battery,
-		otherObjects: [scissors, butterfly, barOfSoap, knife]
-	},{
-		instructions: [carrot.instruction, mediumMeasuringCup.instruction,
-		               waterBottle.instruction, chair.instruction],
-		criticalInstruction: "mediumMeasuringCup",
-		objectSet: 4,
-		target: mediumMeasuringCup,
-		distractor: largeMeasuringCup,
-		alt: umbrella,
-		otherObjects: [chair, smallMeasuringCup, carrot, waterBottle]
-	},{
-		instructions: [basketball.instruction, roundBrush.instruction, headphones.instruction, 
-		                book.instruction], 
-		criticalInstruction: "roundBrush",
-		target: roundBrush,
-		objectSet: 5,
-		distractor: hairBrush,
-		alt: skate,
-		otherObjects: [basketball, dalmatian, headphones, book, ring]
-	},{
-		instructions: [banana.instruction, dollar.instruction, 
-		               boardEraser.instruction, feather.instruction], 		
-		criticalInstruction: "boardEraser",
-		objectSet: 6,
-		target: boardEraser,
-		distractor: pencilEraser,
-		alt: brain,
-		otherObjects: [dollar, feather, tennisBall, banana]
-	},{
-		instructions: [magnet.instruction, handcuffs.instruction, 
-		               pandaToy.instruction, mediumCandle.instruction], 
-		criticalInstruction: "mediumCandle",
-		objectSet: 7,
-		target: mediumCandle,
-		distractor: smallCandle,
-		alt: flower,
-		otherObjects: [pandaToy, largeCandle, handcuffs, magnet]
-	},{
-		instructions: [comb.instruction, computerMouse.instruction, 
-		               castIronPan.instruction, piano.instruction], 
-		criticalInstruction: "computerMouse",
-		objectSet: 8,
-		target: computerMouse,
-		distractor: toyMouse,
-		alt: camera,
-		otherObjects: [piano , comb, key, castIronPan]
-}]
+		otherObjects: [soccerBall]
+	}
+    //{
+	//	instructions: [binoculars.instruction, wrench.instruction, 
+	//	               middleBlock.instruction, coffeeMug.instruction],
+	//	criticalInstruction: "middleBlock",
+	//	objectSet: 2,
+	//	target: middleBlock,
+	//	distractor: bottomBlock,
+	//	alt: stapler,
+	//	otherObjects: [binoculars, wrench, topBlock, coffeeMug]
+	//},{
+	//	instructions: [scissors.instruction, knife.instruction,
+	//	                barOfSoap.instruction, cassetteTape.instruction],
+	//	criticalInstruction: "cassetteTape",
+	//	objectSet: 3,
+	//	target: cassetteTape,
+	//	distractor: rollOfTape,
+	//	alt: battery,
+	//	otherObjects: [scissors, butterfly, barOfSoap, knife]
+	//},{
+	//	instructions: [carrot.instruction, mediumMeasuringCup.instruction,
+	//	               waterBottle.instruction, chair.instruction],
+	//	criticalInstruction: "mediumMeasuringCup",
+	//	objectSet: 4,
+	//	target: mediumMeasuringCup,
+	//	distractor: largeMeasuringCup,
+	//	alt: umbrella,
+	//	otherObjects: [chair, smallMeasuringCup, carrot, waterBottle]
+	//},{
+	//	instructions: [basketball.instruction, roundBrush.instruction, headphones.instruction, 
+	//	                book.instruction], 
+	//	criticalInstruction: "roundBrush",
+	//	target: roundBrush,
+	//	objectSet: 5,
+	//	distractor: hairBrush,
+	//	alt: skate,
+	//	otherObjects: [basketball, dalmatian, headphones, book, ring]
+	//},{
+	//	instructions: [banana.instruction, dollar.instruction, 
+	//	               boardEraser.instruction, feather.instruction], 		
+	//	criticalInstruction: "boardEraser",
+	//	objectSet: 6,
+	//	target: boardEraser,
+	//	distractor: pencilEraser,
+	//	alt: brain,
+	//	otherObjects: [dollar, feather, tennisBall, banana]
+	//},{
+	//	instructions: [magnet.instruction, handcuffs.instruction, 
+	//	               pandaToy.instruction, mediumCandle.instruction], 
+	//	criticalInstruction: "mediumCandle",
+	//	objectSet: 7,
+	//	target: mediumCandle,
+	//	distractor: smallCandle,
+	//	alt: flower,
+	//	otherObjects: [pandaToy, largeCandle, handcuffs, magnet]
+	//},{
+	//	instructions: [comb.instruction, computerMouse.instruction, 
+	//	               castIronPan.instruction, piano.instruction], 
+	//	criticalInstruction: "computerMouse",
+	//	objectSet: 8,
+	//	target: computerMouse,
+	//	distractor: toyMouse,
+	//	alt: camera,
+	//	otherObjects: [piano , comb, key, castIronPan]
+	//}
+]
 
 
 module.exports = {criticalItems: criticalItems}

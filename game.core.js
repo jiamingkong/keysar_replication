@@ -40,7 +40,7 @@ var game_core = function(game_instance){
     this.world = {width : 1575, height : 560};  // 160cm * 3
     this.roundNum = -1;
     this.instructionNum = -1;
-    this.numRounds = 8;
+    this.numRounds = 1;
     this.attemptNum = 0; // Increments whenever someone makes a mistake
     this.paused = true;
     this.objects = [];
@@ -140,7 +140,7 @@ game_core.prototype.setScriptAndDir = function(instruction) {
 game_core.prototype.newInstruction = function() {
     this.instructionNum += 1;
     var instruction = this.instructions[this.instructionNum]
-    this.setScriptAndDir(instruction)
+    //this.setScriptAndDir(instruction)
     this.server_send_update()
 }
 
@@ -160,6 +160,7 @@ var sampleConditionOrder = function() {
                 orderList.push(candidate)
             }
         })
+        console.log("order list")
         console.log(orderList)
     }
     return orderList
@@ -198,19 +199,25 @@ game_core.prototype.makeTrialList = function () {
     // 2) Assign target & distractor based on condition
     critItems = JSON.parse(JSON.stringify(objectSet.criticalItems))
     var itemList = _.shuffle(critItems) //objectSet.criticalItems;
-    var trialList = _.map(_.range(8), function(i) {
+    var trialList = _.map(_.range(1), function(i) {
         var condition = conditionOrder[i];
         var item = itemList[i];
-        var other = condition === "exp" ? item['distractor'] : item['alt']
+        //var other = condition === "exp" ? item['distractor'] : item['alt']
+        other = item['distractor']
         var target = _.extend(item['target'], {target: true})
         var objects = item.otherObjects.concat([target, other])
+        console.log('objects')
+        console.log(objects[0])
+        console.log(objects[1])
+        console.log(objects[2])
         return _.extend(_.omit(itemList[i], ['distractor', 'alt', 'target']), 
             {condition: condition,
              instructions: item.instructions,
              objects: objects}
             )})
-
-    console.log(conditionOrder)
+    
+    console.log('trialList')
+    console.log(trialList)
 
     // 3. assign random initial locations (probably won't want to do this in the real exp.)
     var local_this = this;
