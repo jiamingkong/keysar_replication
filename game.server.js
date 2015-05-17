@@ -41,13 +41,17 @@ var moveObject = function(client, i, x, y) {
 // with the coordinates of the click, which this function reads and
 // applies.
 game_server.server_onMessage = function(client,message) {
-    console.log("server received message: " + message)
+    
+   
     //Cut the message up into sub components
     var message_parts = message.split('.');
 
     //The first is always the type of message
     var message_type = message_parts[0];
 
+    if (message_type != 'update_mouse') {
+        console.log("server received message: " + message)
+    }
     //Extract important variables
     var gc = client.game.gamecore
     var id = gc.instance.id.slice(0,6)
@@ -72,6 +76,20 @@ game_server.server_onMessage = function(client,message) {
             gc.paused = true;
             gc.attemptNum += 1;
             _.map(all, function(p) {p.player.instance.send("s.waiting.incorrect") })
+            break;
+
+        case 'waitCheck':
+            //writeData(client, "error", message_parts)
+            gc.paused = true;
+            gc.attemptNum += 1;
+            _.map(all, function (p) { p.player.instance.send("s.waitCheck.wait") })
+            break;
+
+        case 'checkMessage':
+            //writeData(client, "error", message_parts)
+            check_res = message_parts[2];
+            gc.paused = true;
+            _.map(all, function (p) { p.player.instance.send("s.waiting." + check_res) })
             break;
 
         case 'ready' :

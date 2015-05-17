@@ -151,12 +151,26 @@ client_onMessage = function(data) {
                 incorrect = true;
             if(my_role == "director") {
                 game.get_player(my_id).message += 'Waiting for matcher to re-position mouse...';
+                game.get_player(my_id).need_check = false
             } else {
                 game.get_player(my_id).message += 'Please click on the circle in the center and wait for the director to give you instructions.';
                 waiting = true;
+                game.get_player(my_id).need_click = true
             }
             drawScreen(game, game.get_player(my_id))
             break;
+
+        case 'waitCheck':
+            if (my_role == "director") {
+                game.get_player(my_id).message = 'Please tell if the matcher make the right move or not';
+                game.get_player(my_id).need_check = true
+            } else {
+                game.get_player(my_id).message = 'Please wait for the director to judge your move.';
+                game.get_player(my_id).need_click = false
+            }
+            drawScreen(game, game.get_player(my_id))
+            break;
+
         }
     } 
 }; 
@@ -193,7 +207,7 @@ client_connect_to_server = function(game) {
     game.socket = io.connect();
 
     // Tell server when client types something in the chatbox
-    $('form').submit(function(){
+    $('#s').submit(function(){
         var msg = 'chatMessage.' + Date.now() + '.' + $('#chatbox').val();
         if($('#chatbox').val() != '') {
             game.socket.send(msg);
@@ -201,6 +215,20 @@ client_connect_to_server = function(game) {
             // If you just sent a scripted instruction, get rid of it!
             game.scriptedInstruction = "none";
         }
+        return false;
+    });
+
+    // Tell server when client hit the right button
+    $('#r').submit(function () {
+        var msg = 'checkMessage.' + Date.now() + '.' + 'correct';
+        game.socket.send(msg);
+        return false;
+    });
+
+    // Tell server when client hit the right button
+    $('#w').submit(function () {
+        var msg = 'checkMessage.' + Date.now() + '.' + 'incorrect';
+        game.socket.send(msg);
         return false;
     });
 
@@ -345,31 +373,40 @@ function mouseUpListener(evt) {
         console.log(cell)
         console.log([obj.gridX, obj.gridY])
         
+        // center it
+        obj.gridX = cell[0]
+        obj.gridY = cell[1]
+        obj.trueX = game.getPixelFromCell(cell[0], cell[1]).centerX - obj.width/2
+        obj.trueY = game.getPixelFromCell(cell[0], cell[1]).centerY - obj.height / 2
+        game.socket.send("objMove." + dragIndex + "." + Math.round(obj.trueX) + "." + Math.round(obj.trueY))
+        //send check message to server
+        game.socket.send("waitCheck." + dragIndex + "." + Math.round(obj.trueX) + "." + Math.round(obj.trueY))
+            
         // If you were dragging the correct object... And dragged it to the correct location...
-        if (_.isEqual(obj.name, game.instructions[game.instructionNum].split(' ')[0])
-            && _.isEqual(cell, game.currentDestination)) {
-            // center it
-            obj.gridX = cell[0]
-            obj.gridY = cell[1]
-            obj.trueX = game.getPixelFromCell(cell[0], cell[1]).centerX - obj.width/2
-            obj.trueY = game.getPixelFromCell(cell[0], cell[1]).centerY - obj.height/2
-            game.socket.send("correctDrop." + dragIndex + "." + Math.round(obj.trueX) + "." + Math.round(obj.trueY))
+        //if (_.isEqual(obj.name, game.instructions[game.instructionNum].split(' ')[0])
+        //    && _.isEqual(cell, game.currentDestination)) {
+        //    // center it
+        //    obj.gridX = cell[0]
+        //    obj.gridY = cell[1]
+        //    obj.trueX = game.getPixelFromCell(cell[0], cell[1]).centerX - obj.width/2
+        //    obj.trueY = game.getPixelFromCell(cell[0], cell[1]).centerY - obj.height/2
+        //    game.socket.send("correctDrop." + dragIndex + "." + Math.round(obj.trueX) + "." + Math.round(obj.trueY))
         
         // If you didn't drag it beyond cell bounds, snap it back w/o comment
-        } else if (obj.gridX == cell[0] && obj.gridY == cell[1]) {
-            console.log("here!")
-            obj.trueX = game.getPixelFromCell(obj.gridX, obj.gridY).centerX - obj.width/2
-            obj.trueY = game.getPixelFromCell(obj.gridX, obj.gridY).centerY - obj.height/2
-            game.socket.send("objMove." + dragIndex + "." + Math.round(obj.trueX) + "." + Math.round(obj.trueY))
+        //} else if (obj.gridX == cell[0] && obj.gridY == cell[1]) {
+        //    console.log("here!")
+        //    obj.trueX = game.getPixelFromCell(obj.gridX, obj.gridY).centerX - obj.width/2
+        //    obj.trueY = game.getPixelFromCell(obj.gridX, obj.gridY).centerY - obj.height/2
+        //    game.socket.send("objMove." + dragIndex + "." + Math.round(obj.trueX) + "." + Math.round(obj.trueY))
         
         // If you moved the incorrect object or went to the incorrect location, pause game to readjust mouse
-        } else {
-            obj.trueX = game.getPixelFromCell(obj.gridX, obj.gridY).centerX - obj.width/2
-            obj.trueY = game.getPixelFromCell(obj.gridX, obj.gridY).centerY - obj.height/2
-            game.get_player(my_id).message = "Error!"
-            game.socket.send("incorrectDrop." + dragIndex + "." + Math.round(obj.trueX) + "." + Math.round(obj.trueY) 
-                + "." + cell[0] + "." + cell[1] + "." + Date.now())
-        }
+        //} else {
+        //    obj.trueX = game.getPixelFromCell(obj.gridX, obj.gridY).centerX - obj.width/2
+        //    obj.trueY = game.getPixelFromCell(obj.gridX, obj.gridY).centerY - obj.height/2
+        //    game.get_player(my_id).message = "Error!"
+        //    game.socket.send("incorrectDrop." + dragIndex + "." + Math.round(obj.trueX) + "." + Math.round(obj.trueY) 
+        //        + "." + cell[0] + "." + cell[1] + "." + Date.now())
+        //}
         // Tell server where you dropped it
         drawScreen(game, game.get_player(my_id))
         dragging = false;

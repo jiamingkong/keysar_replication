@@ -69,6 +69,8 @@ var game_player = function( game_instance, player_instance) {
     //Set up initial values for our state information
     this.message = '';
     this.id = '';
+    this.need_click = true
+    this.need_check = false
 }; 
 
 // server side we set some classes to global types, so that
@@ -160,8 +162,7 @@ var sampleConditionOrder = function() {
                 orderList.push(candidate)
             }
         })
-        console.log("order list")
-        console.log(orderList)
+
     }
     return orderList
 }

@@ -107,7 +107,25 @@ var drawInstructions = function(game) {
 var drawScreen = function(game, player) {
     //bg
     game.ctx.fillStyle = "#FFFFFF";
-    game.ctx.fillRect(0,0,game.viewport.width,game.viewport.height);
+    game.ctx.fillRect(0, 0, game.viewport.width, game.viewport.height);
+
+    if (player.role == 'director') {
+        console.log('needcheck:'+player.need_check)
+        if (player.need_check) {
+            document.getElementById('right').removeAttribute("disabled");
+            document.getElementById('wrong').removeAttribute("disabled");
+        }
+        else {
+            document.getElementById('right').disabled = "disabled";
+            document.getElementById('wrong').disabled = "disabled";
+        }
+    }
+
+    if (player.role == 'matcher') {
+        document.getElementById('right').style.visibility = 'hidden';
+        document.getElementById('wrong').style.visibility = 'hidden';
+    }
+
     if (player.message) {
         // Draw message in center (for countdown, e.g.)
         game.ctx.font = "bold 23pt Helvetica";
@@ -117,16 +135,20 @@ var drawScreen = function(game, player) {
           game.world.width/2, game.world.height/4,
           game.world.width*4/5,
           25);
-        if(player.role == "matcher")
-          drawClickPoint(game);
+        if (player.role == "matcher") {
+            if (player.need_click)
+            drawClickPoint(game);
+        }
     } else {
         drawGrid(game);
         drawObjects(game, player);   
         if(player.role == "director"){
           drawGrid(game);
-          drawInstructions(game)
+          //drawInstructions(game)
         }
     }
+
+
 }
 
 function wrapText(game, text, x, y, maxWidth, lineHeight) {
