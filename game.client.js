@@ -360,7 +360,7 @@ function mouseDownListener(evt) {
     return false;
 }
 
-function mouseUpListener(evt) {    
+function mouseUpListener(evt) {
     game.viewport.addEventListener("mousedown", mouseDownListener, false);
     window.removeEventListener("mouseup", mouseUpListener, false);
     if (dragging) {
@@ -370,8 +370,6 @@ function mouseUpListener(evt) {
         dropY = (evt.clientY - bRect.top)*(game.viewport.height/bRect.height);
         var obj = game.objects[dragIndex]
         var cell = game.getCellFromPixel(dropX, dropY)
-        console.log(cell)
-        console.log([obj.gridX, obj.gridY])
         
         // center it
         obj.gridX = cell[0]
@@ -380,6 +378,7 @@ function mouseUpListener(evt) {
         obj.trueY = game.getPixelFromCell(cell[0], cell[1]).centerY - obj.height / 2
         game.socket.send("objMove." + dragIndex + "." + Math.round(obj.trueX) + "." + Math.round(obj.trueY))
         //send check message to server
+        
         game.socket.send("waitCheck." + dragIndex + "." + Math.round(obj.trueX) + "." + Math.round(obj.trueY))
             
         // If you were dragging the correct object... And dragged it to the correct location...
