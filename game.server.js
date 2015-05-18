@@ -29,6 +29,9 @@ var moveObject = function(client, i, x, y) {
     var others = client.game.gamecore.get_others(client.userid);
     obj.trueX = parseInt(x)
     obj.trueY = parseInt(y)
+    var cell = client.game.gamecore.getCellFromPixel(obj.trueX, obj.trueY)
+    obj.lastX = cell[0]
+    obj.lastY = cell[1]
     _.map(others, function(p) {
       p.player.instance.emit('objMove', {i: i, x: x, y: y})
   })
@@ -41,17 +44,13 @@ var moveObject = function(client, i, x, y) {
 // with the coordinates of the click, which this function reads and
 // applies.
 game_server.server_onMessage = function(client,message) {
-    
-   
+
     //Cut the message up into sub components
     var message_parts = message.split('.');
 
     //The first is always the type of message
     var message_type = message_parts[0];
 
-    if (message_type != 'update_mouse') {
-        console.log("server received message: " + message)
-    }
     //Extract important variables
     var gc = client.game.gamecore
     var id = gc.instance.id.slice(0,6)
@@ -93,15 +92,73 @@ game_server.server_onMessage = function(client,message) {
             break;
 
         case 'ready' :
-            gc.paused = false;
+            gc.paused = false
+            new_round = true
             if(message_parts[1] === "incorrect")
                 gc.instructionNum -= 1
-            if(client.game.gamecore.instructionNum + 1 < client.game.gamecore.instructions.length) 
+            //if (client.game.gamecore.instructionNum + 1 < client.game.gamecore.instructions.length)
+
+            //check if the game is finished
+            if(client.game.gamecore.objects.length > 0){
+                //the game is started
+                //sort the three items
+                x_array = new Array()
+                y_array = new Array()
+                tmp = -1
+                for(j = 0; j < client.game.gamecore.objects.length; j++){
+                    x_array[j] = client.game.gamecore.objects[j].lastX
+                    y_array[j] = client.game.gamecore.objects[j].lastY
+                }
+                if (x_array[0] > x_array[1]) {
+                    tmp = x_array[0]
+                    x_array[0] = x_array[1]
+                    x_array[1] = tmp
+
+                    tmp = y_array[0]
+                    y_array[0] = y_array[1]
+                    y_array[1] = tmp
+                }
+                if (x_array[0] > x_array[2]) {
+                    tmp = x_array[0]
+                    x_array[0] = x_array[2]
+                    x_array[2] = tmp
+
+                    tmp = y_array[0]
+                    y_array[0] = y_array[2]
+                    y_array[2] = tmp
+                }
+                if (x_array[1] > x_array[2]) {
+                    tmp = x_array[1]
+                    x_array[1] = x_array[2]
+                    x_array[2] = tmp
+
+                    tmp = y_array[1]
+                    y_array[1] = y_array[2]
+                    y_array[2] = tmp
+                }
+                
+                //the condition of game over
+                if ( x_array[0] == 1 && y_array[0] == 1 &&
+                     x_array[1] == 2 && y_array[1] == 1 &&
+                     x_array[2] == 9 && y_array[2] == 3
+                    ){
+                    //game over
+                    new_round = true
+                }
+                else{
+                    new_round = false
+                }
+            }else{
+                //the game is not started
+                new_round = true
+            }
+
+            if(!new_round)
                 gc.newInstruction();
             else
                 gc.newRound();
-            break;
-
+                break;
+        
         case 'chatMessage' :
             //write data to file
             if(client.game.player_count == 2 && !gc.paused) 

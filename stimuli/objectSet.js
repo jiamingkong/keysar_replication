@@ -6,17 +6,17 @@
 
 // BLOCK 1
 var sunGlasses1 = {
-	url: 'stimuli/sunGlasses.png', name: "sunGlasses1", width: 130, height: 65,
-	instruction: "sunGlasses1 right", initialLoc: [1, 5], critical: "distractor",
+	url: 'stimuli/1.png', name: "sunGlasses1", width: 160, height: 160,
+	instruction: "sunGlasses1 right", initialLoc: [1, 5], lastY:1, lastX:5, critical: "distractor",
 	scriptedInstruction: "move the glasses one space to the right"}
 var sunGlasses2 = {
-    url: 'stimuli/sunGlasses.png', name: "sunGlasses2", width: 130, height: 65,
-    instruction: "sunGlasses2 right", initialLoc : [2,5], critical : "target",
+    url: 'stimuli/1.png', name: "sunGlasses2", width: 160, height: 160,
+    instruction: "sunGlasses2 right", initialLoc: [2, 5], lastY: 2, lastX: 5, critical: "target",
     scriptedInstruction: "move the glasses one space to the right"
 }
 var sunGlasses3 = {
-    url: 'stimuli/sunGlasses.png', name: "sunGlasses3", width: 130, height: 65,
-    instruction: "sunGlasses3 right", initialLoc : [3,5], critical : "target",
+    url: 'stimuli/1.png', name: "sunGlasses3", width: 160, height: 160,
+    instruction: "sunGlasses3 right", initialLoc: [3, 5], lastY: 3, lastX: 5, critical: "target",
     scriptedInstruction: "move the glasses one space to the right"
 }
 //var saxophone = {

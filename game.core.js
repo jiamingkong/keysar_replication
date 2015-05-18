@@ -103,7 +103,7 @@ game_core.prototype.get_active_players = function() {
 
 game_core.prototype.newRound = function() {
     console.log("new round!")
-    console.log(this.roundNum)
+    console.log('round num = ' + this.roundNum)
 
     if(this.roundNum == this.numRounds - 1) {
         var local_game = this;
@@ -140,8 +140,8 @@ game_core.prototype.setScriptAndDir = function(instruction) {
 }
 
 game_core.prototype.newInstruction = function() {
-    this.instructionNum += 1;
-    var instruction = this.instructions[this.instructionNum]
+    this.instructionNum = 1;
+    //var instruction = this.instructions[this.instructionNum]
     //this.setScriptAndDir(instruction)
     this.server_send_update()
 }
@@ -240,10 +240,6 @@ game_core.prototype.makeTrialList = function () {
 // for x = 1,2,3,4; y = 1,2,3,4
 game_core.prototype.getPixelFromCell = function (x, y) {
     return {
-        //centerX: 25 + 68.75 + 137.5 * (x - 1),
-        //centerY: 25 + 68.75 + 137.5 * (y - 1),
-        //width: 137.5,
-        //height: 137.5
         centerX: 24 + 84.5 + 169 * (x - 1),
         centerY: 27 + 84.5 + 169 * (y - 1),
         width: 169,
@@ -254,8 +250,6 @@ game_core.prototype.getPixelFromCell = function (x, y) {
 // maps a raw pixel coordinate to to the exact pixel coordinates
 // for x = 1,2,3,4; y = 1,2,3,4
 game_core.prototype.getCellFromPixel = function (mx, my) {
-    //var cellX = Math.floor((mx - 25) / 137.5) + 1
-    //var cellY = Math.floor((my - 25) / 137.5) + 1
     var cellX = Math.floor((mx - 24) / 169) + 1
     var cellY = Math.floor((my - 25) / 169) + 1
     return [cellX, cellY]

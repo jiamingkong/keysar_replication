@@ -370,42 +370,53 @@ function mouseUpListener(evt) {
         dropY = (evt.clientY - bRect.top)*(game.viewport.height/bRect.height);
         var obj = game.objects[dragIndex]
         var cell = game.getCellFromPixel(dropX, dropY)
+        var currX = cell[0]
+        var currY = cell[1]
         
-        // center it
-        obj.gridX = cell[0]
-        obj.gridY = cell[1]
-        obj.trueX = game.getPixelFromCell(cell[0], cell[1]).centerX - obj.width/2
-        obj.trueY = game.getPixelFromCell(cell[0], cell[1]).centerY - obj.height / 2
-        game.socket.send("objMove." + dragIndex + "." + Math.round(obj.trueX) + "." + Math.round(obj.trueY))
-        //send check message to server
-        
-        game.socket.send("waitCheck." + dragIndex + "." + Math.round(obj.trueX) + "." + Math.round(obj.trueY))
-            
-        // If you were dragging the correct object... And dragged it to the correct location...
-        //if (_.isEqual(obj.name, game.instructions[game.instructionNum].split(' ')[0])
-        //    && _.isEqual(cell, game.currentDestination)) {
-        //    // center it
-        //    obj.gridX = cell[0]
-        //    obj.gridY = cell[1]
-        //    obj.trueX = game.getPixelFromCell(cell[0], cell[1]).centerX - obj.width/2
-        //    obj.trueY = game.getPixelFromCell(cell[0], cell[1]).centerY - obj.height/2
-        //    game.socket.send("correctDrop." + dragIndex + "." + Math.round(obj.trueX) + "." + Math.round(obj.trueY))
-        
-        // If you didn't drag it beyond cell bounds, snap it back w/o comment
-        //} else if (obj.gridX == cell[0] && obj.gridY == cell[1]) {
-        //    console.log("here!")
-        //    obj.trueX = game.getPixelFromCell(obj.gridX, obj.gridY).centerX - obj.width/2
-        //    obj.trueY = game.getPixelFromCell(obj.gridX, obj.gridY).centerY - obj.height/2
-        //    game.socket.send("objMove." + dragIndex + "." + Math.round(obj.trueX) + "." + Math.round(obj.trueY))
-        
-        // If you moved the incorrect object or went to the incorrect location, pause game to readjust mouse
-        //} else {
-        //    obj.trueX = game.getPixelFromCell(obj.gridX, obj.gridY).centerX - obj.width/2
-        //    obj.trueY = game.getPixelFromCell(obj.gridX, obj.gridY).centerY - obj.height/2
-        //    game.get_player(my_id).message = "Error!"
-        //    game.socket.send("incorrectDrop." + dragIndex + "." + Math.round(obj.trueX) + "." + Math.round(obj.trueY) 
-        //        + "." + cell[0] + "." + cell[1] + "." + Date.now())
-        //}
+        //check if the drop cell is empty
+        cell_empty = true
+        for (i = 0; i < game.objects.length; i++) {
+            if (i == dragIndex) {
+                continue
+            }
+            var tmp_item = game.objects[i]
+            if (currX == tmp_item.lastX && currY == tmp_item.lastY) {
+                //move the item back to the cell before draging
+                obj.gridX = obj.lastX
+                obj.gridY = obj.lastX
+                obj.trueX = game.getPixelFromCell(obj.lastX, obj.lastY).centerX - obj.width / 2
+                obj.trueY = game.getPixelFromCell(obj.lastX, obj.lastY).centerY - obj.height / 2
+                game.socket.send("objMove." + dragIndex + "." + Math.round(obj.trueX) + "." + Math.round(obj.trueY))
+                cell_empty = false
+                break
+            }
+        }
+
+        if (cell_empty) {
+            //check if move only one cell
+            move_distance = Math.abs(obj.lastX - cell[0]) + Math.abs(obj.lastY - cell[1])
+            if (move_distance >= 2) {
+                //move the item back to the cell before draging
+                obj.gridX = obj.lastX
+                obj.gridY = obj.lastX
+                obj.trueX = game.getPixelFromCell(obj.lastX, obj.lastY).centerX - obj.width / 2
+                obj.trueY = game.getPixelFromCell(obj.lastX, obj.lastY).centerY - obj.height / 2
+                game.socket.send("objMove." + dragIndex + "." + Math.round(obj.trueX) + "." + Math.round(obj.trueY))
+            }
+            else {
+                // center it
+                obj.gridX = cell[0]
+                obj.gridY = cell[1]
+                obj.lastX = cell[0]
+                obj.lastY = cell[1]
+                obj.trueX = game.getPixelFromCell(cell[0], cell[1]).centerX - obj.width / 2
+                obj.trueY = game.getPixelFromCell(cell[0], cell[1]).centerY - obj.height / 2
+                game.socket.send("objMove." + dragIndex + "." + Math.round(obj.trueX) + "." + Math.round(obj.trueY))
+                //send check message to server    
+                game.socket.send("waitCheck." + dragIndex + "." + Math.round(obj.trueX) + "." + Math.round(obj.trueY))
+            }
+        }
+
         // Tell server where you dropped it
         drawScreen(game, game.get_player(my_id))
         dragging = false;
