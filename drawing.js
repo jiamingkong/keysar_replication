@@ -75,11 +75,13 @@ var containsCell = function(cellList, cell) {
 }
 
 var drawObjects = function(game, player) {
-    _.map(game.objects, function(obj) { 
+    _.map(game.objects, function (obj) {
+        console.log(obj)
         if(player.role == "matcher")
           game.ctx.drawImage(obj.img, obj.trueX, obj.trueY, obj.width, obj.height)
-        else if(!containsCell(occludedList, [obj.gridY, obj.gridX]))
-          game.ctx.drawImage(obj.img, obj.trueX, obj.trueY, obj.width, obj.height)
+        //else if(!containsCell(occludedList, [obj.gridY, obj.gridX]))
+        else //director, reflect
+          game.ctx.drawImage(obj.img, 704.5 + (704.5 - obj.trueX), obj.trueY, obj.width, obj.height)
     })
 }
 
@@ -110,7 +112,6 @@ var drawScreen = function(game, player) {
     game.ctx.fillRect(0, 0, game.viewport.width, game.viewport.height);
 
     if (player.role == 'director') {
-        console.log('needcheck:'+player.need_check)
         if (player.need_check) {
             document.getElementById('right').removeAttribute("disabled");
             document.getElementById('wrong').removeAttribute("disabled");
@@ -127,6 +128,7 @@ var drawScreen = function(game, player) {
     }
 
     if (player.message) {
+
         // Draw message in center (for countdown, e.g.)
         game.ctx.font = "bold 23pt Helvetica";
         game.ctx.fillStyle = 'red';
@@ -136,16 +138,41 @@ var drawScreen = function(game, player) {
           game.world.width*4/5,
           25);
         if (player.role == "matcher") {
+            if (player.need_check) {
+                game.ctx.font = "bold 18pt Helvetica";
+                game.ctx.fillStyle = 'red';
+                game.ctx.textAlign = 'center';
+                wrapText(game, player.message,
+                  game.world.width / 2, 23,
+                  game.world.width * 4 / 5,
+                  25);
+                drawGrid(game);
+                drawObjects(game, player);
+            }
             if (player.need_click)
             drawClickPoint(game);
         }
+        if (player.role == 'director') {
+            if (player.need_check) {
+                game.ctx.font = "bold 18pt Helvetica";
+                game.ctx.fillStyle = 'red';
+                game.ctx.textAlign = 'center';
+                wrapText(game, player.message,
+                  game.world.width / 2, 23,
+                  game.world.width * 4 / 5,
+                  25);
+                drawGrid(game);
+                drawObjects(game, player);
+            }
+        }
+
     } else {
         drawGrid(game);
         drawObjects(game, player);   
-        if(player.role == "director"){
-          drawGrid(game);
+        //if(player.role == "director"){
+          //drawGrid(game);
           //drawInstructions(game)
-        }
+        //}
     }
 
 

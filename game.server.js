@@ -188,7 +188,6 @@ var writeData = function(client, type, message_parts) {
     var objectSet = gc.trialList[gc.roundNum].objectSet
     var instructionNum = gc.instructionNum
     var object_name = gc.instructions[gc.instructionNum].split(' ')[0]
-    //console.log(object_name)
     var object = _.find(gc.objects, function (obj) { return obj.name == object_name })
     var critical = object.critical === "filler" ? 0 : 1
     var id = gc.instance.id.slice(0,6)

@@ -98,7 +98,6 @@ client_onserverupdate_received = function(data){
     game.player_count = data.pc;
 
     // Draw all this new stuff
-    console.log(game.get_player(my_id))
     drawScreen(game, game.get_player(my_id))
 }; 
 
@@ -111,7 +110,6 @@ client_onserverupdate_received = function(data){
 // The corresponding function where the server parses messages from
 // clients, look for "server_onMessage" in game.server.js.
 client_onMessage = function(data) {
-    console.log('client rec mess:'+data)
     var commands = data.split('.');
     var command = commands[0];
     var subcommand = commands[1] || null;
@@ -146,16 +144,17 @@ client_onMessage = function(data) {
 
         case 'waiting' :
             var type = commanddata;
-            game.get_player(my_id).message = type ? type + " move!\n" : ""
+            game.get_player(my_id).message = type ? type + " move!\n\n" : ""
             if(type == 'incorrect')
-                incorrect = true;
+                incorrect = true
             if(my_role == "director") {
                 game.get_player(my_id).message += 'Waiting for matcher to re-position mouse...';
                 game.get_player(my_id).need_check = false
             } else {
-                game.get_player(my_id).message += 'Please click on the circle in the center and wait for the director to give you instructions.';
-                waiting = true;
+                game.get_player(my_id).message += 'Please click on the circle in the center and\n wait for the director to give you instructions.';
+                waiting = true
                 game.get_player(my_id).need_click = true
+                game.get_player(my_id).need_check = false
             }
             drawScreen(game, game.get_player(my_id))
             break;
@@ -166,7 +165,9 @@ client_onMessage = function(data) {
                 game.get_player(my_id).need_check = true
             } else {
                 game.get_player(my_id).message = 'Please wait for the director to judge your move.';
+                waiting = true
                 game.get_player(my_id).need_click = false
+                game.get_player(my_id).need_check = true
             }
             drawScreen(game, game.get_player(my_id))
             break;
