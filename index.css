@@ -72,11 +72,12 @@ html , body {
 }
 
 #messages {
-	height:92%;
+	height:26%;
 	text-align: left;
 	font-size: 200%;
 	overflow-y: scroll;
-
+	float:left;
+	width:70%;
 }
 
 #chatarea form {
@@ -104,6 +105,7 @@ html , body {
 	background: rgb(130, 224, 255); 
 	border: none; 
 	padding: 5px;
+	float:right;
 }
 
 #checkarea form {
@@ -121,6 +123,12 @@ html , body {
 	background: rgb(130, 224, 255); 
 	border: none; 
 	padding: 5px;
+}
+
+
+#image {
+	float:right;
+	width:30%;
 }
 ::-webkit-scrollbar {
     -webkit-appearance: none;
