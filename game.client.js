@@ -211,7 +211,10 @@ client_connect_to_server = function(game) {
     $('#s').submit(function(){
         var msg = 'chatMessage.' + Date.now() + '.' + $('#chatbox').val();
         if($('#chatbox').val() != '') {
-            game.socket.send(msg);
+            if(my_role == "director")
+            {
+                game.socket.send(msg);
+            }
             $('#chatbox').val('');
             // If you just sent a scripted instruction, get rid of it!
             game.scriptedInstruction = "none";
@@ -262,6 +265,8 @@ client_connect_to_server = function(game) {
     game.socket.on('onconnected', client_onconnected.bind(game));
     //On message from the server, we parse the commands and send it to the handlers
     game.socket.on('message', client_onMessage.bind(game));
+
+    game.socket.on('switch', client_onSwitch.bind(game));
 }; 
 
 client_onconnected = function(data) {
@@ -301,7 +306,6 @@ client_onjoingame = function(num_players, role) {
         game.viewport.addEventListener("mousedown", mouseDownListener, false);
     }
 }; 
-
 /*
 MOUSE EVENT LISTENERS
 */
