@@ -266,8 +266,50 @@ client_connect_to_server = function(game) {
     //On message from the server, we parse the commands and send it to the handlers
     game.socket.on('message', client_onMessage.bind(game));
 
+<<<<<<< HEAD
+    game.socket.on('changeRole', client_onChangeRole.bind(game));
+=======
     game.socket.on('switch', client_onSwitch.bind(game));
+>>>>>>> origin/master
 }; 
+
+client_onChangeRole = function (data) {
+    console.log(my_role)
+    
+    if (my_role == "director") {
+        role = "matcher"
+        if (role === "matcher") {
+            $('#viewport').mousemove(function (event) {
+                var bRect = game.viewport.getBoundingClientRect();
+                mouseX = (event.clientX - bRect.left) * (game.viewport.width / bRect.width);
+                mouseY = (event.clientY - bRect.top) * (game.viewport.height / bRect.height);
+                game.socket.send('update_mouse.' + Date.now() + '.' + Math.floor(mouseX) + '.' + Math.floor(mouseY));
+            });
+            game.viewport.addEventListener("mousedown", mouseDownListener, false);
+        }
+    } else {
+        game.viewport.removeEventListener("mousedown", mouseDownListener, false)
+        window.removeEventListener("mousedown", mouseDownListener, false)
+        game.viewport.removeEventListener("mouseup", mouseUpListener, false)
+        window.removeEventListener("mouseup", mouseUpListener, false)
+        game.viewport.removeEventListener("mousemove", mouseMoveListener, false)
+        window.removeEventListener("mousemove", mouseMoveListener, false)
+        role = "director"
+    }
+    
+    // Update w/ role (can only move stuff if agent)
+    $('#header').html("You are the " + role + ' now.');
+    if (role === "director") {
+        $('#instructs').html("Type instructions for the matcher to move the object in the direction of the arrow!")
+    } else {
+        $('#instructs').html("Click and drag objects to follow the director's instructions.")
+    }
+
+    // set role locally
+    my_role = role;
+    game.get_player(my_id).role = my_role
+    drawScreen(game, game.get_player(my_id))
+}
 
 client_onconnected = function(data) {
     //The server responded that we are now in a game. Remember who we are
@@ -281,7 +323,7 @@ client_onjoingame = function(num_players, role) {
         game.players.unshift({id: null, player: new game_player(game)})});
 
     // Update w/ role (can only move stuff if agent)
-    $('#header').append(role + '.');
+    $('#header').append("You are the " + role + ' now.');
     if(role === "director") {
         $('#instructs').append("Type instructions for the matcher to move the object in the direction of the arrow!")
     } else {

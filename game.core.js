@@ -38,9 +38,9 @@ var game_core = function(game_instance){
 
     //Dimensions of world -- Used in collision detection, etc.
     this.world = {width : 1575, height : 560};  // 160cm * 3
-    this.roundNum = -1;
+    this.roundNum = 0;
     this.instructionNum = -1;
-    this.numRounds = 1;
+    this.numRounds = 4; //修改这个参数决定要进行多少轮游戏
     this.attemptNum = 0; // Increments whenever someone makes a mistake
     this.paused = true;
     this.objects = [];
@@ -105,16 +105,33 @@ game_core.prototype.newRound = function() {
     console.log("new round!")
     console.log('round num = ' + this.roundNum)
 
-    if(this.roundNum == this.numRounds - 1) {
-        var local_game = this;
-        _.map(local_game.get_active_players(), function(p){
-            p.player.instance.disconnect()})//send('s.end')})
-    } else {
+    //first round
+    if (this.roundNum == 0) {
         this.roundNum += 1;
-        this.objects = this.trialList[this.roundNum].objects
-        this.instructions = this.trialList[this.roundNum].instructions
+        this.objects = this.trialList[0].objects
+        this.instructions = this.trialList[0].instructions
         this.instructionNum = -1;
         this.newInstruction()
+    } else if (this.roundNum < this.numRounds) {
+        this.roundNum += 1;
+        var local_game = this;
+        _.map(local_game.get_active_players(), function (p) {
+            if (p.player.role == "director")
+                p.player.role = "watcher"
+            if (p.player.role == "watcher")
+                p.player.role = "director"
+            p.player.instance.emit("changeRole")
+        })
+        this.trialList = this.makeTrialList()
+        this.objects = this.trialList[0].objects
+        this.instructions = this.trialList[0].instructions
+        this.newInstruction()
+    } else {
+        var local_game = this;
+        _.map(local_game.get_active_players(), function (p) {
+            p.player.instance.disconnect()
+        })
+        //send('s.end')})
     }
 }
 

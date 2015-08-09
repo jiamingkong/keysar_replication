@@ -76,7 +76,6 @@ var containsCell = function(cellList, cell) {
 
 var drawObjects = function(game, player) {
     _.map(game.objects, function (obj) {
-        console.log(obj)
         if(player.role == "matcher")
           game.ctx.drawImage(obj.img, obj.trueX, obj.trueY, obj.width, obj.height)
         //else if(!containsCell(occludedList, [obj.gridY, obj.gridX]))
@@ -113,6 +112,8 @@ var drawScreen = function(game, player) {
 
     if (player.role == 'director') {
         if (player.need_check) {
+            document.getElementById('right').style.visibility = 'visible';
+            document.getElementById('wrong').style.visibility = 'visible';
             document.getElementById('right').removeAttribute("disabled");
             document.getElementById('wrong').removeAttribute("disabled");
         }

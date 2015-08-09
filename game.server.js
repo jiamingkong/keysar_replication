@@ -138,9 +138,11 @@ game_server.server_onMessage = function(client,message) {
                 }
                 
                 //the condition of game over
-                if ( x_array[0] == 1 && y_array[0] == 1 &&
-                     x_array[1] == 2 && y_array[1] == 1 &&
-                     x_array[2] == 9 && y_array[2] == 3
+                console.log(x_array)
+                console.log(y_array)
+                if ( x_array[0] == 4 && y_array[0] == 1 &&
+                     x_array[1] == 5 && y_array[1] == 3 &&
+                     x_array[2] == 5 && y_array[2] == 2
                     ){
                     //game over
                     new_round = true
@@ -184,8 +186,8 @@ game_server.server_onMessage = function(client,message) {
 var writeData = function(client, type, message_parts) {
     var gc = client.game.gamecore
     var attemptNum = gc.attemptNum;
-    var condition = gc.trialList[gc.roundNum].condition
-    var objectSet = gc.trialList[gc.roundNum].objectSet
+    var condition = gc.trialList[0].condition
+    var objectSet = gc.trialList[0].objectSet
     var instructionNum = gc.instructionNum
     var object_name = gc.instructions[gc.instructionNum].split(' ')[0]
     var object = _.find(gc.objects, function (obj) { return obj.name == object_name })
