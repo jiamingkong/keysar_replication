@@ -266,11 +266,11 @@ client_connect_to_server = function(game) {
     //On message from the server, we parse the commands and send it to the handlers
     game.socket.on('message', client_onMessage.bind(game));
 
-<<<<<<< HEAD
+
     game.socket.on('changeRole', client_onChangeRole.bind(game));
-=======
-    game.socket.on('switch', client_onSwitch.bind(game));
->>>>>>> origin/master
+
+    //game.socket.on('switch', client_onSwitch.bind(game));
+
 }; 
 
 client_onChangeRole = function (data) {
@@ -318,6 +318,7 @@ client_onconnected = function(data) {
 };
 
 client_onjoingame = function(num_players, role) {
+    console.log("OnJoinGame")
     // Need client to know how many players there are, so they can set up the appropriate data structure
     _.map(_.range(num_players - 1), function(i){
         game.players.unshift({id: null, player: new game_player(game)})});
